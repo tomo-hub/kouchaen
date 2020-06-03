@@ -1,0 +1,46 @@
+h2{
+    border-top:solid 1px #000;
+    padding-top:20px;
+}
+p{
+    margin:5px;
+}
+table {
+    border-collapse: collapse;
+    width:1250px;
+}
+table th, table td {
+    border: solid 1px ;
+    padding:10px;
+}
+.background{
+    background-color:#808080;
+    opacity:0.7;
+}
+img {
+    width:100px;
+    height:100px;
+}
+.text_align_right {
+    width:100px;
+    text-align:right;
+}
+select{
+    -webkit-appearance: none;
+    padding:5px 30px 5px 5px;
+    width:80px;
+    border:solid 1px #dcdcdc;
+}
+.icon{
+    border-top: 4px solid #aaaaaa;   
+    border-right: 4px solid transparent; 
+    border-left: 4px solid transparent;
+    display: inline-block;
+    height: 0;
+    width: 0;
+    right:25px;
+    position:relative;
+}
+.types{
+    margin-left:53px;
+}
