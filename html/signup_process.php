@@ -26,7 +26,7 @@ $name = get_post('username');
 $password = get_post('password');
 // データベース接続関数を変数にいれる
 $db = get_db_connect();
-//dd(NOW_DATE);
+
 
 // ユーザ名、パスワードの文字数、半角英数字が条件外だった場合 登録ページへ遷移
 try{

@@ -11,5 +11,6 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+
 // VIEWファイルの読み込み
 include_once '../view/index_view.php';

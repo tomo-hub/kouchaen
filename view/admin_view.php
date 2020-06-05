@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>商品管理ツール</h1>
-    <a href="admin_user.php">ユーザ管理ページ</a> <!--未処理！！！-->
+    <a href="<?php print h(ADMIN_USER_URL); ?>">ユーザ管理ページ</a> <!--未処理！！！-->
     <a href="<?php print h(LOGOUT_URL); ?>">ログアウト</a>
     <h2>新規商品追加</h2>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>

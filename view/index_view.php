@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width,initial-scale=1.0″>
     <title>トップページ</title>
     <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'index.css'); ?>">
 </head>
@@ -15,7 +16,7 @@
             <p class="comment">様々な紅茶の種類からお好みの紅茶を<br>ご購入いただけます。<br>なじみのあるダージリンやアッサム、<br>フルーツを取り入れた香り豊かなフレーバードティー…<br>自分へのご褒美やプレゼントにも最適です。</p>
             <section>
             <div class="registerbox">
-                <p>まずは簡単な新規会員登録から</p>
+                <p>まずは新規会員登録から</p>
                 <a href="<?php print h(SIGNUP_URL); ?>" class="register">会員登録</a>
             </div>
             <div class="registerbox">

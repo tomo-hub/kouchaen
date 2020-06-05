@@ -29,6 +29,8 @@ define('DETAIL_ITEM_URL', '/detail_item.php');
 define('CART_URL', '/cart.php');
 define('FINISH_URL', '/finish.php');
 define('ADMIN_URL', '/admin.php');
+define('ADMIN_USER_URL', '/admin_user.php');
+
 
 // 現在の日時
 define('NOW_DATE', date('Y-m-d H:i:s'));

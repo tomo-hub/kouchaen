@@ -19,6 +19,18 @@ function get_user($db, $user_id){
   return fetch_query($db, $sql, $params);
 }
 
+// 全てのユーザを取得
+function get_all_users($db){
+  $sql = "
+    SELECT 
+      username, 
+      createdate 
+    FROM 
+      ec_user 
+  ";
+  return fetch_all_query($db, $sql);
+}
+
 // user_nameが同じものをDBから取得
 function get_user_by_name($db, $name){
   $sql = "
@@ -44,7 +56,7 @@ function get_login_user($db){
 
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
@@ -60,7 +72,8 @@ function regist_user($db, $name, $password) {
     if( is_valid_user($db, $name) === false || is_valid_password($password) === false){
       return false;
     }
-    return insert_user($db, $name, $password);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    return insert_user($db, $name, $hash);
 }
 
 function insert_user($db, $name, $password){

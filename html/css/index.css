@@ -37,18 +37,21 @@ header ul li a:hover{
     transition: transform .2s;
 }
 .imgspace{
+    max-width:100%;
     margin:0 auto;
     width:1100px;
 }
 .mainimg{
+    max-width:100%;
     width:1100px;
     height:400px;
-    object-fit:cover;
+    height:auto;
 }
 article{
     margin:0 auto;
 }
 section{
+    max-width:100%;
     display:flex;
     width:500px;
     margin:0 auto;
