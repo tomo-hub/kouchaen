@@ -45,6 +45,7 @@ nav{
     width:250px;
 }
 article{
+    width:950px;
     padding-top:25px;
     padding-right:20px;
     padding-left:20px;
@@ -155,5 +156,70 @@ header span{
     vertical-align:top;
 }
 .icon{
+    color:#ff8c00;
+}
+.head{
+    display:flex;
+}
+.sort{
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:auto;
+}
+.sortbutton{
+    background-color:#a4a4a4;
+    border:solid 1px #a4a4a4;
+    color:#fff;
+    padding:3px 10px;
+}
+.sortbutton:hover{
+    background-color:#2e2e2e;
+    border:solid 1px #2e2e2e;
+    color:#dcdcdc;
+    opacity: 0.6;
+    padding:3px 10px;
+}
+.foot{
+    display:flex;
+}
+.page{
+    display:flex;
+    margin:0 auto;
+    margin-top:30px;
+}
+.linkpage{
+    background-color:#a4a4a4;
+    border:solid 1px #a4a4a4;
+    color:#fff;
+    width:20px;
+    height:20px;
+    padding:5px;
+    text-align: center;
+    margin-right:4px;
+}
+.linkpage:hover{
+    background-color:#2e2e2e;
+    border:solid 1px #2e2e2e;
+    color:#dcdcdc;
+    opacity: 0.6;
+    width:20px;
+    height:20px;
+    padding:5px;
+    text-align: center;
+    margin-right:4px;
+}
+.nowpage{
+    width:20px;
+    height:20px;
+    border:solid 1px #ff8c00;
+    padding:5px;
+    text-align: center;
+    margin-right:4px;
+}
+.page a{
+    color:#585858;
+    text-decoration:none;
+}
+.page span{
     color:#ff8c00;
 }

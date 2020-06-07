@@ -27,6 +27,26 @@ function get_items($db, $is_open = false){
     return fetch_all_query($db, $sql);
 }
 
+// 全ての商品を取得(ページネーション)
+function get_items_page($db, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN ec_item_stock 
+    ON ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE ec_item_master.status = 1 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+
 // キーワード検索の商品を取得
 function get_keyword_items($db, $keyword){
     $sql = "
@@ -73,6 +93,11 @@ function get_all_items($db){
 // 全ての公開商品を取得
 function get_all_open_items($db){
     return get_items($db, true);
+}
+
+// 全ての公開商品を取得(ページネーション)
+function get_all_open_items_page($db, $limit_page_number){
+  return get_items_page($db, $limit_page_number);
 }
 
 
@@ -278,4 +303,76 @@ function is_foreach_decrease_stock($db, $carts){
         }
     }
     return true;
+}
+
+// 新着順の商品情報取得
+function get_new_arrival_items($db,$limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 
+    ORDER BY ec_item_master.createdate DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql,$params);
+}
+
+// 価格の安い順の商品情報取得
+function get_cheap_price_items($db,$limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 
+    ORDER BY price 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+
+// 価格の高い順の商品情報取得
+function get_high_price_items($db,$limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 
+    ORDER BY price DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
 }
