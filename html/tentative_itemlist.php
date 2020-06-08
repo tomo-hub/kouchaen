@@ -14,16 +14,27 @@ $sql_kind = get_get('sql_kind');
 $keyword = get_get('keyword');
 $type = get_get('type');
 
-// キーワード検索時の商品
-if($sql_kind === 'keyword_search'){
-    $items = get_keyword_items($db, $keyword);
-// カテゴリ検索時の商品
-}else if($sql_kind === 'category_search'){
-    $items = get_category_items($db, $type);
-// 商品一覧
+// 受け取った選択された並び替え順を変数にいれる
+$sort = get_get('sort');
+
+// 現在のページ番号を変数にいれる
+if(get_get('page') === ''){
+    $now_page = 1;
 }else{
-    $items = get_all_open_items($db);
+    $now_page = get_get('page');
 }
+// SQLのLIMIT句用(8個ずつ商品を取得する)
+$limit_page_number = ($now_page - 1) * 8;
+
+// 検索や並び替えで取得した商品一覧
+$items = get_itemlist_items($db, $sort, $limit_page_number, $sql_kind, $type, $keyword);
+
+
+$all_items = get_all_open_items($db);
+// 全ての商品の合計
+$total_items = count($all_items);
+// 総ページ数を変数にいれる(端数切り上げ)
+$total_pages = ceil($total_items / 8);
 
 
 // トークンの生成を変数にいれる

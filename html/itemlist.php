@@ -36,40 +36,20 @@ if(get_get('page') === ''){
 }else{
     $now_page = get_get('page');
 }
-// SQLのLIMIT句用
+// SQLのLIMIT句用(8個ずつ商品を取得する)
 $limit_page_number = ($now_page - 1) * 8;
 
-// 公開している新着順の商品情報を変数にいれる
-if($sort === 'new_arrival'){
-    $items = get_new_arrival_items($db,$limit_page_number);
-  // 公開している価格の安い順の商品情報を変数にいれる
-  }else if($sort === 'cheap_price'){
-    $items = get_cheap_price_items($db,$limit_page_number);
-  // 公開している価格の高い順の商品情報を変数にいれる
-  }else if($sort === 'high_price'){
-    $items = get_high_price_items($db,$limit_page_number);
-  // 公開している商品情報を変数にいれる
-  }else{
-    $items = get_all_open_items_page($db, $limit_page_number);
-}
+// 検索や並び替えで取得した商品一覧
+$items = get_itemlist_items($db, $sort, $limit_page_number, $sql_kind, $type, $keyword);
 
-// 全ての商品の取得
-$total_items = get_all_open_items($db);
+
+$all_items = get_all_open_items($db);
 // 全ての商品の合計
-$total_items = count($total_items);
+$total_items = count($all_items);
 // 総ページ数を変数にいれる(端数切り上げ)
 $total_pages = ceil($total_items / 8);
 
-// キーワード検索時の商品
-if($sql_kind === 'keyword_search'){
-    $items = get_keyword_items($db, $keyword);
-// カテゴリ検索時の商品
-}else if($sql_kind === 'category_search'){
-    $items = get_category_items($db, $type);
-// 商品一覧
-}else{
-    $items = get_all_open_items_page($db, $limit_page_number);
-}
+
 
 $cart_items = get_cart_items_amount($db, $user_id);
 // カートの個数表示

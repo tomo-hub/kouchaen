@@ -27,64 +27,6 @@ function get_items($db, $is_open = false){
     return fetch_all_query($db, $sql);
 }
 
-// 全ての商品を取得(ページネーション)
-function get_items_page($db, $limit_page_number){
-  $sql = '
-    SELECT
-      ec_item_master.item_id,
-      ec_item_master.name,
-      ec_item_master.price,
-      ec_item_master.img,
-      ec_item_stock.stock 
-    FROM
-      ec_item_master 
-    JOIN ec_item_stock 
-    ON ec_item_master.item_id = ec_item_stock.item_id 
-    WHERE ec_item_master.status = 1 
-    LIMIT :limit_page_number, 8
-  ';
-  $params = array(':limit_page_number' => $limit_page_number);
-  return fetch_all_query($db, $sql, $params);
-}
-
-// キーワード検索の商品を取得
-function get_keyword_items($db, $keyword){
-    $sql = "
-      SELECT 
-      ec_item_master.item_id,
-      ec_item_master.name,
-      ec_item_master.price,
-      ec_item_master.img,
-      ec_item_stock.stock 
-      FROM
-        ec_item_master 
-      JOIN ec_item_stock 
-      ON ec_item_master.item_id = ec_item_stock.item_id 
-      WHERE ec_item_master.status = 1 AND CONCAT(ec_item_master.comment, ec_item_master.name) LIKE :keyword 
-    ";
-    $params = array(':keyword' => '%' . $keyword . '%');
-    return fetch_all_query($db, $sql, $params);
-}
-
-// カテゴリ検索の商品を取得
-function get_category_items($db, $type){
-    $sql = "
-      SELECT 
-      ec_item_master.item_id,
-      ec_item_master.name,
-      ec_item_master.price,
-      ec_item_master.img,
-      ec_item_stock.stock 
-      FROM
-        ec_item_master 
-      JOIN ec_item_stock 
-      ON ec_item_master.item_id = ec_item_stock.item_id 
-      WHERE ec_item_master.status = 1 AND ec_item_master.type = :type 
-    ";
-    $params = array(':type' => $type);
-    return fetch_all_query($db, $sql, $params);
-}
-
 // 全ての商品を取得
 function get_all_items($db){
   return get_items($db);
@@ -95,10 +37,7 @@ function get_all_open_items($db){
     return get_items($db, true);
 }
 
-// 全ての公開商品を取得(ページネーション)
-function get_all_open_items_page($db, $limit_page_number){
-  return get_items_page($db, $limit_page_number);
-}
+
 
 
 function regist_item($db, $name, $price, $stock, $status, $type, $comment, $image){
@@ -305,6 +244,67 @@ function is_foreach_decrease_stock($db, $carts){
     return true;
 }
 
+
+
+// 全ての商品を取得(ページネーション)
+function get_all_open_items_page($db, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN ec_item_stock 
+    ON ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE ec_item_master.status = 1 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+// キーワード検索の商品を取得
+function get_keyword_items($db, $keyword, $limit_page_number){
+  $sql = "
+    SELECT 
+    ec_item_master.item_id,
+    ec_item_master.name,
+    ec_item_master.price,
+    ec_item_master.img,
+    ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN ec_item_stock 
+    ON ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE ec_item_master.status = 1 AND CONCAT(ec_item_master.comment, ec_item_master.name) LIKE :keyword 
+    LIMIT :limit_page_number, 8
+  ";
+  $params = array(':keyword' => '%' . $keyword . '%' , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+// カテゴリ検索の商品を取得
+function get_category_items($db, $type, $limit_page_number){
+  $sql = "
+    SELECT 
+    ec_item_master.item_id,
+    ec_item_master.name,
+    ec_item_master.price,
+    ec_item_master.img,
+    ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN ec_item_stock 
+    ON ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE ec_item_master.status = 1 AND ec_item_master.type = :type 
+    LIMIT :limit_page_number, 8
+  ";
+  $params = array(':type' => $type , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+
+
 // 新着順の商品情報取得
 function get_new_arrival_items($db,$limit_page_number){
   $sql = '
@@ -328,6 +328,53 @@ function get_new_arrival_items($db,$limit_page_number){
   $params = array(':limit_page_number' => $limit_page_number);
   return fetch_all_query($db, $sql,$params);
 }
+// 新着順のキーワード検索の商品を取得
+function get_keyword_new_arrival_items($db, $keyword, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND CONCAT(ec_item_master.comment, ec_item_master.name) LIKE :keyword 
+    ORDER BY ec_item_master.createdate DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':keyword' => '%' . $keyword . '%' , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql,$params);
+}
+// 新着順のカテゴリ検索の商品を取得
+function get_category_new_arrival_items($db, $type, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND ec_item_master.type = :type 
+    ORDER BY ec_item_master.createdate DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':type' => $type , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql,$params);
+}
+
 
 // 価格の安い順の商品情報取得
 function get_cheap_price_items($db,$limit_page_number){
@@ -350,6 +397,52 @@ function get_cheap_price_items($db,$limit_page_number){
     LIMIT :limit_page_number, 8
   ';
   $params = array(':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+// 価格の安い順のキーワード検索の商品を取得
+function get_keyword_cheap_price_items($db, $keyword, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND CONCAT(ec_item_master.comment, ec_item_master.name) LIKE :keyword 
+    ORDER BY price 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':keyword' => '%' . $keyword . '%' , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+// 価格の安い順のカテゴリ検索の商品を取得
+function get_category_cheap_price_items($db, $type, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND ec_item_master.type = :type 
+    ORDER BY price 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':type' => $type , ':limit_page_number' => $limit_page_number);
   return fetch_all_query($db, $sql, $params);
 }
 
@@ -375,4 +468,128 @@ function get_high_price_items($db,$limit_page_number){
   ';
   $params = array(':limit_page_number' => $limit_page_number);
   return fetch_all_query($db, $sql, $params);
+}
+// 価格の高い順のキーワード検索の商品を取得
+function get_keyword_high_price_items($db, $keyword, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND CONCAT(ec_item_master.comment, ec_item_master.name) LIKE :keyword 
+    ORDER BY price DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':keyword' => '%' . $keyword . '%' , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+// 価格の高い順のカテゴリ検索の商品を取得
+function get_category_high_price_items($db, $type, $limit_page_number){
+  $sql = '
+    SELECT
+      ec_item_master.item_id,
+      ec_item_master.name,
+      ec_item_master.price,
+      ec_item_master.img,
+      ec_item_stock.stock 
+    FROM
+      ec_item_master 
+    JOIN 
+      ec_item_stock 
+    ON 
+      ec_item_master.item_id = ec_item_stock.item_id 
+    WHERE 
+      ec_item_master.status = 1 AND ec_item_master.type = :type 
+    ORDER BY price DESC 
+    LIMIT :limit_page_number, 8
+  ';
+  $params = array(':type' => $type , ':limit_page_number' => $limit_page_number);
+  return fetch_all_query($db, $sql, $params);
+}
+
+
+function get_itemlist_items($db, $sort, $limit_page_number, $sql_kind, $type, $keyword){
+  // 公開している新着順の商品情報を変数にいれる
+  if($sort === 'new_arrival'){
+    $items = new_arrival_items($db,$limit_page_number, $sql_kind, $type, $keyword);
+  // 公開している価格の安い順の商品情報を変数にいれる
+  }else if($sort === 'cheap_price'){
+    $items = cheap_price_items($db,$limit_page_number, $sql_kind, $type, $keyword);
+  // 公開している価格の高い順の商品情報を変数にいれる
+  }else if($sort === 'high_price'){
+    $items = high_price_items($db,$limit_page_number, $sql_kind, $type, $keyword);
+  // 公開している商品情報を変数にいれる
+  }else{
+    $items = all_open_items_page($db, $limit_page_number, $sql_kind, $type, $keyword);
+  }
+  return $items;
+}
+
+// 新着順の場合
+function new_arrival_items($db, $limit_page_number, $sql_kind, $type, $keyword){
+  // キーワード検索時の商品
+  if($sql_kind === 'keyword_search'){
+    $items = get_keyword_new_arrival_items($db, $keyword, $limit_page_number);
+  // カテゴリ検索時の商品
+  }else if($sql_kind === 'category_search'){
+    $items = get_category_new_arrival_items($db, $type, $limit_page_number);
+  // 商品一覧
+  }else{
+    $items = get_new_arrival_items($db, $limit_page_number);
+  }
+  return $items;
+}
+
+// 価格の安い順の場合
+function cheap_price_items($db, $limit_page_number, $sql_kind, $type, $keyword){
+  // キーワード検索時の商品
+  if($sql_kind === 'keyword_search'){
+    $items = get_keyword_cheap_price_items($db, $keyword, $limit_page_number);
+  // カテゴリ検索時の商品
+  }else if($sql_kind === 'category_search'){
+    $items = get_category_cheap_price_items($db, $type, $limit_page_number);
+  // 商品一覧
+  }else{
+    $items = get_cheap_price_items($db, $limit_page_number);
+  }
+  return $items;
+}
+
+// 価格の高い順の場合
+function high_price_items($db, $limit_page_number, $sql_kind, $type, $keyword){
+  // キーワード検索時の商品
+  if($sql_kind === 'keyword_search'){
+    $items = get_keyword_high_price_items($db, $keyword, $limit_page_number);
+  // カテゴリ検索時の商品
+  }else if($sql_kind === 'category_search'){
+    $items = get_category_high_price_items($db, $type, $limit_page_number);
+  // 商品一覧
+  }else{
+    $items = get_high_price_items($db, $limit_page_number);
+  }
+  return $items;
+}
+
+// 並び替えしない場合
+function all_open_items_page($db,$limit_page_number, $sql_kind, $type, $keyword){
+  // キーワード検索時の商品
+  if($sql_kind === 'keyword_search'){
+    $items = get_keyword_items($db, $keyword, $limit_page_number);
+  // カテゴリ検索時の商品
+  }else if($sql_kind === 'category_search'){
+    $items = get_category_items($db, $type, $limit_page_number);
+  // 商品一覧
+  }else{
+    $items = get_all_open_items_page($db, $limit_page_number);
+  }
+  return $items;
 }

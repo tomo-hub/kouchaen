@@ -16,48 +16,35 @@
                         <input type="search" name="keyword" placeholder="キーワードで検索">
                         <input type="submit" name="submit" value="検索" class="search">
                         <input type="hidden" name="sql_kind" value="keyword_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
                     </form>
                 </li>
                 <!--カテゴリ検索-->
                 <li class="category">カテゴリ検索
-                    <form method="get" name="formA" action="tentative_itemlist.php">
-                        <a href="javascript:formA.submit()">ダージリン<input type="hidden" name="type" value="0"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formB">
-                        <a href="javascript:formB.submit()">アッサム<input type="hidden" name="type" value="1"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formC">
-                        <a href="javascript:formC.submit()">ニルギリ<input type="hidden" name="type" value="2"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formD">
-                        <a href="javascript:formD.submit()">ウバ<input type="hidden" name="type" value="3"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formE">
-                        <a href="javascript:formE.submit()">ケニア<input type="hidden" name="type" value="4"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formF">
-                        <a href="javascript:formF.submit()">フレーバードティー<input type="hidden" name="type" value="5"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=0&sql_kind=category_search">ダージリン</a>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=1&sql_kind=category_search">アッサム</a>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=2&sql_kind=category_search">ニルギリ</a>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=3&sql_kind=category_search">ウバ</a>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=4&sql_kind=category_search">ケニア</a>
+                    <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=5&sql_kind=category_search">フレーバードティー</a>
                 </li>
             </ul>
         </nav>
         <article>
-            <section>
+            <section class="head">
                 <p>茶葉は、50g単位でお売りしております</p>
                 <?php include VIEW_PATH . 'templates/messages.php'; ?>
+
+                <!--商品の並び替え機能-->
+                <div class="sort" action="tentative_itemlist.php">
+                    <form method="get">
+                        <select name="sort">
+                        <option value="new_arrival" <?php if($sort === 'new_arrival'){ print h('selected'); } ?>>新着順</option>
+                        <option value="cheap_price" <?php if($sort === 'cheap_price'){ print h('selected'); } ?>>価格の安い順</option>
+                        <option value="high_price" <?php if($sort === 'high_price'){ print h('selected'); } ?>>価格の高い順</option>
+                        </select>
+                        <input type="submit" value="並び替え" class="sortbutton">
+                    </form>
+                </div>
             </section>
             
                 <!--検索商品一覧-->
@@ -118,6 +105,19 @@
                     </form>
                     <?php } ?>
                 <?php } ?>
+            </section>
+            </section>
+            <!--ページネーション-->
+            <section class="foot">
+                <div class="page">
+                    <?php for($i = 1; $i <= $total_pages; $i++){ 
+                        if ($i == $now_page) { ?>
+                            <div class="nowpage"><span><?php print h($now_page);?></span></div>
+                        <?php } else { ?>
+                            <a href='/tentative_itemlist.php?page=<?php print h($i); ?>&sort=<?php print h($sort); ?>&type=<?php print h($type); ?>&keyword=<?php print h($keyword); ?>&sql_kind=<?php print h($sql_kind); ?>'><div class="linkpage"><?php print h($i); ?></div></a>
+                        <?php } 
+                    } ?>
+                </div>
             </section>
         </article>
     </main>

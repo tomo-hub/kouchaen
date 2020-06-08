@@ -78,12 +78,13 @@ main form{
     opacity:0.5;
     transition: transform .2s;
 }
-.category form:nth-child(1){
+.category a:nth-child(1){
     padding-top:15px;
 }
-.category form{
+.category a{
     padding-top:5px;
     margin-left:10px;
+    display:block;
 }
 .search{
     background-color:#a4a4a4;

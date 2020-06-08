@@ -16,41 +16,16 @@
                         <input type="search" name="keyword" placeholder="キーワードで検索">
                         <input type="submit" name="submit" value="検索" class="search">
                         <input type="hidden" name="sql_kind" value="keyword_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
                     </form>
                 </li>
                 <!--カテゴリ検索-->
                 <li class="category">カテゴリ検索
-                    <form method="get" name="formA" action="itemlist.php">
-                        <a href="javascript:formA.submit()">ダージリン<input type="hidden" name="type" value="0"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formB">
-                        <a href="javascript:formB.submit()">アッサム<input type="hidden" name="type" value="1"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formC">
-                        <a href="javascript:formC.submit()">ニルギリ<input type="hidden" name="type" value="2"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formD">
-                        <a href="javascript:formD.submit()">ウバ<input type="hidden" name="type" value="3"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formE">
-                        <a href="javascript:formE.submit()">ケニア<input type="hidden" name="type" value="4"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
-                    <form method="get" name="formF">
-                        <a href="javascript:formF.submit()">フレーバードティー<input type="hidden" name="type" value="5"></a>
-                        <input type="hidden" name="sql_kind" value="category_search">
-                        <input type="hidden" name="csrf_token" value="<?php print h($token); ?>">
-                    </form>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=0&sql_kind=category_search">ダージリン</a>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=1&sql_kind=category_search">アッサム</a>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=2&sql_kind=category_search">ニルギリ</a>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=3&sql_kind=category_search">ウバ</a>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=4&sql_kind=category_search">ケニア</a>
+                    <a href="/itemlist.php?sort=<?php print h($sort); ?>&type=5&sql_kind=category_search">フレーバードティー</a>
                 </li>
             </ul>
         </nav>
@@ -60,7 +35,7 @@
                 <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
                 <!--商品の並び替え機能-->
-                <div class="sort">
+                <div class="sort" action="itemlist.php">
                     <form method="get">
                         <select name="sort">
                         <option value="new_arrival" <?php if($sort === 'new_arrival'){ print h('selected'); } ?>>新着順</option>
@@ -146,7 +121,9 @@
                         if ($i == $now_page) { ?>
                             <div class="nowpage"><span><?php print h($now_page);?></span></div>
                         <?php } else { ?>
-                            <a href='/itemlist.php?page=<?php print h($i); ?>&sort=<?php print h($sort); ?>'><div class="linkpage"><?php print h($i); ?></div></a>
+                            
+                                <a href='/itemlist.php?page=<?php print h($i); ?>&sort=<?php print h($sort); ?>&type=<?php print h($type); ?>&keyword=<?php print h($keyword); ?>&sql_kind=<?php print h($sql_kind); ?>'><div class="linkpage"><?php print h($i); ?></div></a>
+                            
                         <?php } 
                     } ?>
                 </div>
