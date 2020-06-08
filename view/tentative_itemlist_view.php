@@ -16,6 +16,7 @@
                         <input type="search" name="keyword" placeholder="キーワードで検索">
                         <input type="submit" name="submit" value="検索" class="search">
                         <input type="hidden" name="sql_kind" value="keyword_search">
+                        <input type="hidden" name="sort" value="<?php print h($sort); ?>">
                     </form>
                 </li>
                 <!--カテゴリ検索-->
@@ -43,6 +44,9 @@
                         <option value="high_price" <?php if($sort === 'high_price'){ print h('selected'); } ?>>価格の高い順</option>
                         </select>
                         <input type="submit" value="並び替え" class="sortbutton">
+                        <input type="hidden" name="type" value="<?php print h($type); ?>">
+                        <input type="hidden" name="keyword" value="<?php print h($keyword); ?>">
+                        <input type="hidden" name="sql_kind" value="<?php print h($sql_kind); ?>">
                     </form>
                 </div>
             </section>

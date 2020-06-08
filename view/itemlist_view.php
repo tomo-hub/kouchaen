@@ -16,6 +16,7 @@
                         <input type="search" name="keyword" placeholder="キーワードで検索">
                         <input type="submit" name="submit" value="検索" class="search">
                         <input type="hidden" name="sql_kind" value="keyword_search">
+                        <input type="hidden" name="sort" value="<?php print h($sort); ?>">
                     </form>
                 </li>
                 <!--カテゴリ検索-->
@@ -35,14 +36,17 @@
                 <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
                 <!--商品の並び替え機能-->
-                <div class="sort" action="itemlist.php">
-                    <form method="get">
+                <div class="sort">
+                    <form method="get" action="itemlist.php">
                         <select name="sort">
                         <option value="new_arrival" <?php if($sort === 'new_arrival'){ print h('selected'); } ?>>新着順</option>
                         <option value="cheap_price" <?php if($sort === 'cheap_price'){ print h('selected'); } ?>>価格の安い順</option>
                         <option value="high_price" <?php if($sort === 'high_price'){ print h('selected'); } ?>>価格の高い順</option>
                         </select>
                         <input type="submit" value="並び替え" class="sortbutton">
+                        <input type="hidden" name="type" value="<?php print h($type); ?>">
+                        <input type="hidden" name="keyword" value="<?php print h($keyword); ?>">
+                        <input type="hidden" name="sql_kind" value="<?php print h($sql_kind); ?>">
                     </form>
                 </div>
             </section>
@@ -121,9 +125,7 @@
                         if ($i == $now_page) { ?>
                             <div class="nowpage"><span><?php print h($now_page);?></span></div>
                         <?php } else { ?>
-                            
                                 <a href='/itemlist.php?page=<?php print h($i); ?>&sort=<?php print h($sort); ?>&type=<?php print h($type); ?>&keyword=<?php print h($keyword); ?>&sql_kind=<?php print h($sql_kind); ?>'><div class="linkpage"><?php print h($i); ?></div></a>
-                            
                         <?php } 
                     } ?>
                 </div>
