@@ -24,13 +24,15 @@ unset($_SESSION['csrf_token']);
 $name = get_post('username');
 // $_POSTで受け取ったパスワードを変数にいれる
 $password = get_post('password');
+// $_POSTで受け取った確認用パスワードを変数にいれる
+$password_confirmation = get_post('password_confirmation');
 // データベース接続関数を変数にいれる
 $db = get_db_connect();
 
 
 // ユーザ名、パスワードの文字数、半角英数字が条件外だった場合 登録ページへ遷移
 try{
-  $result = regist_user($db, $name, $password);
+  $result = regist_user($db, $name, $password, $password_confirmation);
   if( $result=== false){
     set_error('ユーザー登録に失敗しました。');
     redirect_to(SIGNUP_URL);

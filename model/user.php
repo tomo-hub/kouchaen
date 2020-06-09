@@ -68,8 +68,8 @@ function is_admin($user){
 }
 
 // ユーザ登録
-function regist_user($db, $name, $password) {
-    if( is_valid_user($db, $name) === false || is_valid_password($password) === false){
+function regist_user($db, $name, $password, $password_confirmation) {
+    if( is_valid_user($db, $name) === false || is_valid_password($password, $password_confirmation) === false){
       return false;
     }
     $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -104,7 +104,7 @@ function is_valid_user($db, $name){
     return $is_valid;
 }
 
-function is_valid_password($password){
+function is_valid_password($password, $password_confirmation){
     $is_valid = true;
     if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
         set_error('パスワードは'. USER_PASSWORD_LENGTH_MIN . '文字以上、' . USER_PASSWORD_LENGTH_MAX . '文字以内で入力してください。');
@@ -113,6 +113,10 @@ function is_valid_password($password){
     if(is_alphanumeric($password) === false){
         set_error('パスワードは半角英数字で入力してください。');
         $is_valid = false;
+    }
+    if($password !== $password_confirmation){
+      set_error('パスワードがパスワード(確認用)と一致しません。');
+      $is_valid = false;
     }
     return $is_valid;
 }
