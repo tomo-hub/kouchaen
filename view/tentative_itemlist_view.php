@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品一覧ページ</title>
-    <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'tentative_itemlist.css'); ?>">
+    <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'itemlist.css'); ?>">
 </head>
 <body>
     <?php include VIEW_PATH . 'templates/header_index.php'; ?>
@@ -29,10 +29,10 @@
                     <a href="/tentative_itemlist.php?sort=<?php print h($sort); ?>&type=5&sql_kind=category_search">フレーバードティー</a>
                 </li>
             </ul>
+            <p>茶葉は、50g単位でお売りしております</p>
         </nav>
         <article>
             <section class="head">
-                <p>茶葉は、50g単位でお売りしております</p>
                 <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
                 <!--商品の並び替え機能-->

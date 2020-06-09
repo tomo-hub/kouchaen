@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品詳細ページ</title>
-    <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'tentative_detail_itemlist.css'); ?>">
+    <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'detail_item.css'); ?>">
 </head>
 <body>
     <?php include VIEW_PATH . 'templates/header_index.php'; ?>
